@@ -1,0 +1,80 @@
+<style>
+  #stack-values {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  #stack-values .value-tile {
+    background-color: #f5f5f5;
+    text-align: center;
+    padding: 20px;
+    border-radius: 6px;
+  }
+
+  #stack-values .value-icon img {
+    max-width: 80px;
+    height: auto;
+    margin-bottom: 15px;
+  }
+
+  @media (min-width: 768px) {
+    #stack-values {
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+    }
+
+    #stack-values .value-tile {
+      flex: 1;
+    }
+  }
+</style>
+
+<div id="stack-values" style="display: none;">
+  <div class="value-tile">
+    <div class="value-icon">
+      <a href="#clientFirst" aria-label="Jump to client first section">
+        <img src="/assets/rbccm/images/about-us/i-client-first.png" alt="">
+      </a>
+    </div>
+    <h3>Client First</h3>
+  </div>
+
+  <div class="value-tile">
+    <div class="value-icon">
+      <a href="#collaboration" aria-label="Jump to collaboration section">
+        <img src="/assets/rbccm/images/about-us/i-collaboration.png" alt="">
+      </a>
+    </div>
+    <h3>Collaboration</h3>
+  </div>
+
+  <div class="value-tile">
+    <div class="value-icon">
+      <a href="#accountability" aria-label="Jump to accountability section">
+        <img src="/assets/rbccm/images/about-us/i-accountability.png" alt="">
+      </a>
+    </div>
+    <h3>Accountability</h3>
+  </div>
+
+  <div class="value-tile">
+    <div class="value-icon">
+      <a href="#diversity" aria-label="Jump to diversity section">
+        <img src="/assets/rbccm/images/about-us/i-diversity.png" alt="">
+      </a>
+    </div>
+    <h3>Diversity &amp; Inclusion</h3>
+  </div>
+
+  <div class="value-tile">
+    <div class="value-icon">
+      <a href="#integrity" aria-label="Jump to integrity section">
+        <img src="/assets/rbccm/images/about-us/i-integrity.png" alt="">
+      </a>
+    </div>
+    <h3>Integrity</h3>
+  </div>
+</div>
