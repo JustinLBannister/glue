@@ -1,7 +1,7 @@
 <style type="text/css">
   #stack-values {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr; /* 1 column on mobile */
     gap: 20px;
     padding: 20px;
   }
@@ -20,7 +20,6 @@
     padding: 25px;
     margin-bottom: 25px;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     background: white;
@@ -30,18 +29,19 @@
   #stack-values .value-icon img {
     max-width: 80px;
     height: auto;
-    margin-bottom: 15px;
   }
 
+  /* Tablet: 2 columns, auto rows */
   @media (min-width: 768px) {
     #stack-values {
-      flex-direction: row;
-      flex-wrap: nowrap;
-      justify-content: space-between;
+      grid-template-columns: repeat(2, 1fr);
     }
+  }
 
-    #stack-values .value-tile {
-      flex: 1;
+  /* Desktop: 5 columns, 1 row */
+  @media (min-width: 1025px) {
+    #stack-values {
+      grid-template-columns: repeat(5, 1fr);
     }
   }
 </style>
