@@ -1,0 +1,43 @@
+<section id="signin">
+  <div style="background-color: #e8eef1;">
+    <div id="signin-form" style="padding: 60px 0 50px 0;">
+      <div class="container">
+        <div id="signin-content">
+          <div id="signin-pre">
+            <h2 style="margin-top: 0;">Please fill out the information below to access this site</h2>
+            <p style="color: #002144;">You will only have to fill out this form one time</p>
+          </div>
+
+          <!-- Marketo Forms2 Library -->
+          <script src="https://app-ab39.marketo.com/js/forms2/js/forms2.min.js"></script>
+
+          <!-- Empty placeholder for form -->
+          <form id="mktoForm_1360"></form>
+
+          <!-- Load the form -->
+          <script>
+            MktoForms2.loadForm("https://app-ab39.marketo.com", "577-RQV-784", 1360, function(form) {
+              console.log("✅ Marketo form loaded");
+            });
+          </script>
+
+          <!-- Optional: LinkedIn Autofill (remove if causing issues) -->
+          <!--
+          <div id="autofill">
+            <script src="/assets/rbccm/js/sub/linkedin/autofill.min.js" async></script>
+            <script type="text/javascript"
+              data-form="mktoForm_1205"
+              data-field-firstname="FirstName"
+              data-field-lastname="LastName"
+              data-field-email="Email"
+              data-field-company="Company"
+              data-field-title="Title">
+            </script>
+          </div>
+          -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
