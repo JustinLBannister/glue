@@ -1,5 +1,4 @@
 // marketo-script.js
-
 (function () {
   "use strict";
 
@@ -34,7 +33,7 @@
   /**
    * Load the Marketo form into the placeholder div
    */
-  function loadMarketoForm() {
+  function loadMarketoForm(callback) {
     if (!window.MktoForms2) {
       console.error("❌ MktoForms2 is not available");
       return;
@@ -48,32 +47,63 @@
         console.log("🎉 Form submitted successfully");
         return true; // Continue default thank-you handling
       });
+
+      if (typeof callback === "function") {
+        callback();
+      }
     });
   }
 
   /**
-   * Optional LinkedIn Autofill support
+   * Load LinkedIn Autofill and move it into the checkbox list
    */
   function loadLinkedInAutofill() {
-    try {
-      var autofillDiv = document.getElementById("autofill");
-      if (!autofillDiv) {
-        console.log("ℹ️ LinkedIn autofill placeholder not found — skipping");
-        return;
-      }
+    console.log("ℹ️ Loading LinkedIn Autofill...");
 
-      var script = document.createElement("script");
-      script.src = "/assets/rbccm/js/sub/linkedin/autofill.min.js";
-      script.async = true;
-      script.onload = function () {
-        console.log("✅ LinkedIn autofill loaded");
-      };
-      script.onerror = function () {
-        console.warn("⚠️ LinkedIn autofill failed to load — continuing without it");
-      };
-      document.body.appendChild(script);
-    } catch (err) {
-      console.warn("⚠️ LinkedIn autofill error:", err);
+    // Create the LinkedIn autofill container
+    var autofillDiv = document.createElement("div");
+    autofillDiv.id = "autofill";
+    autofillDiv.style.textAlign = "left";
+    autofillDiv.style.margin = "0 0 10px 0";
+
+    // LinkedIn Autofill script
+    var liScript = document.createElement("script");
+    liScript.src = "/assets/rbccm/js/sub/linkedin/autofill.min.js";
+    liScript.async = true;
+    liScript.onload = function () {
+      console.log("✅ LinkedIn Autofill script loaded");
+    };
+    liScript.onerror = function () {
+      console.warn("⚠️ LinkedIn Autofill script failed to load");
+    };
+    autofillDiv.appendChild(liScript);
+
+    // LinkedIn Form binding script
+    var liFormBind = document.createElement("script");
+    liFormBind.type = "IN/Form2";
+    liFormBind.setAttribute("data-form", "mktoForm_1205");
+    liFormBind.setAttribute("data-field-firstname", "FirstName");
+    liFormBind.setAttribute("data-field-lastname", "LastName");
+    liFormBind.setAttribute("data-field-email", "Email");
+    liFormBind.setAttribute("data-field-company", "Company");
+    liFormBind.setAttribute("data-field-title", "Title");
+    autofillDiv.appendChild(liFormBind);
+
+    // Append temporarily to body (will be moved once form is ready)
+    document.body.appendChild(autofillDiv);
+
+    // After Marketo form renders, move autofill into the checkbox list
+    if (window.MktoForms2 && window.jQuery) {
+      MktoForms2.whenReady(function () {
+        if ($("#autofill").length && $(".mktoCheckboxList").length) {
+          $("#autofill").detach().prependTo(".mktoCheckboxList");
+          console.log("✅ LinkedIn Autofill moved into .mktoCheckboxList");
+        } else {
+          console.warn("⚠️ Could not find autofill or .mktoCheckboxList");
+        }
+      });
+    } else {
+      console.warn("⚠️ MktoForms2 or jQuery not available for autofill positioning");
     }
   }
 
@@ -81,16 +111,18 @@
    * Initialize after DOM is ready
    */
   document.addEventListener("DOMContentLoaded", function () {
-    var formPlaceholder = document.getElementById("mktoForm_1360");
+    var formPlaceholder = document.getElementById("mktoForm_" + FORM_ID);
     if (!formPlaceholder) {
-      console.error("❌ Marketo form placeholder #mktoForm_1360 not found");
+      console.error("❌ Marketo form placeholder #mktoForm_" + FORM_ID + " not found");
       return;
     }
 
-    console.log("ℹ️ Initializing Marketo form");
+    console.log("ℹ️ Initializing Marketo form + LinkedIn Autofill");
+
     loadMarketoLibrary(function () {
-      loadMarketoForm();
-      loadLinkedInAutofill(); // Optional
+      loadMarketoForm(function () {
+        loadLinkedInAutofill();
+      });
     });
   });
 })();
